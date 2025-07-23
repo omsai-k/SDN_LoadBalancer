@@ -1,0 +1,27 @@
+version: '3'
+services:
+  core:
+    build:
+      context: ..
+      dockerfile: simulation/Dockerfile
+    command: python src/core/controller.py
+    ports:
+      - "5000:5000"
+  aggregation:
+    build:
+      context: ..
+      dockerfile: simulation/Dockerfile
+    command: python src/aggregation/controller.py http://core:5000
+    ports:
+      - "5001:5000"
+    depends_on:
+      - core
+  edge:
+    build:
+      context: ..
+      dockerfile: simulation/Dockerfile
+    command: python src/edge/controller.py http://aggregation:5000
+    ports:
+      - "5002:5000"
+    depends_on:
+      - aggregation
