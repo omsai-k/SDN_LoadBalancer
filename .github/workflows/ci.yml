@@ -1,0 +1,35 @@
+name: CI
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  build-and-test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+      - name: Install dependencies
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r SDN_Architecture/requirements.txt
+          pip install pytest
+      - name: Run tests
+        env:
+          PYTHONPATH: SDN_Architecture/src
+        run: pytest SDN_Architecture/tests --maxfail=3 --disable-warnings -q
+      - name: Build Docker images
+        run: docker-compose -f SDN_Architecture/simulation/docker-compose.yml build
+      - name: Docker Compose up (healthcheck)
+        run: |
+          docker-compose -f SDN_Architecture/simulation/docker-compose.yml up -d
+          sleep 30
+          docker-compose -f SDN_Architecture/simulation/docker-compose.yml ps
+      - name: Tear down Docker Compose
+        run: docker-compose -f SDN_Architecture/simulation/docker-compose.yml down

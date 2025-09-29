@@ -1,23 +1,40 @@
+
+import os
 from sklearn.ensemble import IsolationForest
+from loguru import logger
+from dotenv import load_dotenv
+
+load_dotenv()
 
 class ThreatDetector:
     def __init__(self):
-        self.model = IsolationForest(contamination=0.1)
+        contamination = float(os.getenv('THREAT_MODEL_CONTAMINATION', '0.1'))
+        self.model = IsolationForest(contamination=contamination)
         self.is_fitted = False
+        logger.info(f"ThreatDetector initialized with contamination={contamination}")
 
     def train(self, X_train):
-        self.model.fit(X_train)
-        self.is_fitted = True
+        try:
+            self.model.fit(X_train)
+            self.is_fitted = True
+            logger.info("ThreatDetector model trained successfully.")
+        except Exception as e:
+            logger.exception(f"Error training ThreatDetector: {e}")
+            self.is_fitted = False
 
     def detect(self, flow_stats):
         if not self.is_fitted:
-            # Handle the case where the model is not trained yet
+            logger.warning("ThreatDetector model not trained.")
             return {'threat': 'None', 'confidence': 1.0, 'reason': 'Model not trained'}
 
-        # We need to reshape the data to be a 2D array
-        X = [[flow_stats['packets'], flow_stats['bytes']]]
-        prediction = self.model.predict(X)
-        if prediction[0] == -1:
-            return {'threat': 'DDoS', 'confidence': 0.9}
-        else:
-            return {'threat': 'None', 'confidence': 1.0}
+        try:
+            X = [[flow_stats['packets'], flow_stats['bytes']]]
+            prediction = self.model.predict(X)
+            if prediction[0] == -1:
+                logger.info(f"Threat detected: {flow_stats}")
+                return {'threat': 'DDoS', 'confidence': 0.9}
+            else:
+                return {'threat': 'None', 'confidence': 1.0}
+        except Exception as e:
+            logger.exception(f"Error in threat detection: {e}")
+            return {'threat': 'error', 'confidence': 0.0, 'reason': str(e)}
