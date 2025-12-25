@@ -1,0 +1,229 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>SDN Management Platform - Dashboard</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav>
+    <a href="index.html" class="nav-brand">SDN Management Platform</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Dashboard</a></li>
+      <li><a href="topology.html">Topology</a></li>
+      <li><a href="threat-detection.html">Threat Detection</a></li>
+      <li><a href="load-balancing.html">Load Balancing</a></li>
+      <li><a href="analytics.html">Analytics</a></li>
+      <li><a href="controllers.html">Controllers</a></li>
+      <li><a href="security-control.html">Security Control</a></li>
+      <li><a href="settings.html">Settings</a></li>
+    </ul>
+    <div class="user-section">
+      <div class="user-badge">👤 Admin</div>
+      <a href="#" class="btn btn-logout">Logout</a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container">
+    <!-- Dashboard Header -->
+    <div class="dashboard-header">
+      <div>
+        <h1 class="dashboard-title">Network Overview Dashboard</h1>
+        <p class="dashboard-subtitle">Real-time SDN network monitoring and management</p>
+      </div>
+      <div class="dashboard-controls">
+        <button class="btn btn-primary">Refresh</button>
+        <button class="btn btn-secondary">Export</button>
+      </div>
+    </div>
+
+    <!-- Connection Status -->
+    <div class="connection-status" data-connection-status>
+      <div class="connection-dot connected"></div>
+      <span>Status: <strong data-connection-status>Loading...</strong></span>
+    </div>
+
+    <!-- Statistics Cards -->
+    <div class="stats">
+      <div class="stat-box">
+        <div class="stat-value" id="active-load-balancers">3</div>
+        <div class="stat-label">Active Load Balancers <span class="stat-status status-active"></span></div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value" id="total-requests-live">0</div>
+        <div class="stat-label">Total Requests <span class="stat-status status-active"></span></div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value" id="average-utilization-dash">0%</div>
+        <div class="stat-label">Avg Utilization <span class="stat-status status-active"></span></div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value" id="failed-connections-dash">0</div>
+        <div class="stat-label">Failed Connections <span class="stat-status status-active"></span></div>
+      </div>
+    </div>
+
+    <!-- Main Content Grid -->
+    <div class="grid grid-2">
+      <!-- Network Topology Card -->
+      <div class="card">
+        <h2 class="card-title">Network Topology</h2>
+        <p class="card-subtitle">Current network structure and connections</p>
+        <canvas id="topology-canvas"></canvas>
+        <div class="topology-legend">
+          <div class="legend-item">
+            <div class="legend-symbol" style="background-color: #3b82f6;"></div>
+            <span>Controller</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-symbol" style="background-color: #10b981;"></div>
+            <span>Switch</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-symbol" style="background-color: #f59e0b;"></div>
+            <span>Host</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- System Health Card -->
+      <div class="card">
+        <h2 class="card-title">System Health</h2>
+        <p class="card-subtitle">Overall network performance metrics</p>
+        
+        <div style="margin: 1.5rem 0;">
+          <div style="margin-bottom: 1rem;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+              <span>CPU Usage</span>
+              <span style="color: #3b82f6;">65%</span>
+            </div>
+            <div style="background-color: var(--surface-light); height: 8px; border-radius: 4px; overflow: hidden;">
+              <div style="background-color: #3b82f6; height: 100%; width: 65%; border-radius: 4px;"></div>
+            </div>
+          </div>
+
+          <div style="margin-bottom: 1rem;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+              <span>Memory Usage</span>
+              <span style="color: #10b981;">52%</span>
+            </div>
+            <div style="background-color: var(--surface-light); height: 8px; border-radius: 4px; overflow: hidden;">
+              <div style="background-color: #10b981; height: 100%; width: 52%; border-radius: 4px;"></div>
+            </div>
+          </div>
+
+          <div style="margin-bottom: 1rem;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+              <span>Network Bandwidth</span>
+              <span style="color: #f59e0b;">78%</span>
+            </div>
+            <div style="background-color: var(--surface-light); height: 8px; border-radius: 4px; overflow: hidden;">
+              <div style="background-color: #f59e0b; height: 100%; width: 78%; border-radius: 4px;"></div>
+            </div>
+          </div>
+
+          <div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+              <span>Storage</span>
+              <span style="color: #ef4444;">91%</span>
+            </div>
+            <div style="background-color: var(--surface-light); height: 8px; border-radius: 4px; overflow: hidden;">
+              <div style="background-color: #ef4444; height: 100%; width: 91%; border-radius: 4px;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Recent Activity -->
+    <div class="card" style="margin-top: 1.5rem;">
+      <h2 class="card-title">Recent Activity</h2>
+      <p class="card-subtitle">Latest network events and changes</p>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Timestamp</th>
+              <th>Event</th>
+              <th>Source</th>
+              <th>Status</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>2025-01-15 14:32:45</td>
+              <td>Flow rule created</td>
+              <td>Switch-2</td>
+              <td><span class="badge badge-success">Success</span></td>
+            </tr>
+            <tr>
+              <td>2025-01-15 14:28:12</td>
+              <td>Host connected</td>
+              <td>Host-C</td>
+              <td><span class="badge badge-success">Success</span></td>
+            </tr>
+            <tr>
+              <td>2025-01-15 14:22:30</td>
+              <td>Traffic spike detected</td>
+              <td>Switch-1</td>
+              <td><span class="badge badge-warning">Warning</span></td>
+            </tr>
+            <tr>
+              <td>2025-01-15 14:15:00</td>
+              <td>Controller restart</td>
+              <td>Controller-1</td>
+              <td><span class="badge badge-info">Info</span></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Additional Links Section -->
+    <div class="grid grid-3" style="margin-top: 2rem;">
+      <div class="card" style="text-align: center; padding: 2rem;">
+        <h3 style="margin-bottom: 1rem;">📊 Analytics</h3>
+        <p style="color: var(--text-secondary); margin-bottom: 1rem;">View detailed traffic and performance analytics</p>
+        <a href="analytics.html" class="btn btn-primary">Go to Analytics</a>
+      </div>
+
+      <div class="card" style="text-align: center; padding: 2rem;">
+        <h3 style="margin-bottom: 1rem;">🔍 Threat Detection</h3>
+        <p style="color: var(--text-secondary); margin-bottom: 1rem;">Monitor security threats and anomalies</p>
+        <a href="threat-detection.html" class="btn btn-primary">View Threats</a>
+      </div>
+
+      <div class="card" style="text-align: center; padding: 2rem;">
+        <h3 style="margin-bottom: 1rem;">⚖️ Load Balancing</h3>
+        <p style="color: var(--text-secondary); margin-bottom: 1rem;">Manage server load distribution</p>
+        <a href="load-balancing.html" class="btn btn-primary">Configure LB</a>
+      </div>
+
+      <div class="card" style="text-align: center; padding: 2rem;">
+        <h3 style="margin-bottom: 1rem;">🌐 Topology</h3>
+        <p style="color: var(--text-secondary); margin-bottom: 1rem;">Visualize network topology and connections</p>
+        <a href="topology.html" class="btn btn-primary">View Topology</a>
+      </div>
+
+      <div class="card" style="text-align: center; padding: 2rem;">
+        <h3 style="margin-bottom: 1rem;">🎮 Controllers</h3>
+        <p style="color: var(--text-secondary); margin-bottom: 1rem;">Manage control, data, and application planes</p>
+        <a href="controllers.html" class="btn btn-primary">Manage Controllers</a>
+      </div>
+
+      <div class="card" style="text-align: center; padding: 2rem;">
+        <h3 style="margin-bottom: 1rem;">⚙️ Settings</h3>
+        <p style="color: var(--text-secondary); margin-bottom: 1rem;">Configure platform and system settings</p>
+        <a href="settings.html" class="btn btn-primary">Open Settings</a>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/api-client-simple.js"></script>
+  <script src="js/real-data-client.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

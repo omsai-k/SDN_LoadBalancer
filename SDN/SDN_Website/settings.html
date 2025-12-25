@@ -1,0 +1,453 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Settings - SDN Management Platform</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav>
+    <a href="index.html" class="nav-brand">SDN Management Platform</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Dashboard</a></li>
+      <li><a href="topology.html">Topology</a></li>
+      <li><a href="threat-detection.html">Threat Detection</a></li>
+      <li><a href="load-balancing.html">Load Balancing</a></li>
+      <li><a href="analytics.html">Analytics</a></li>
+      <li><a href="controllers.html">Controllers</a></li>
+      <li><a href="security-control.html">Security Control</a></li>
+      <li><a href="settings.html">Settings</a></li>
+    </ul>
+    <div class="user-section">
+      <div class="user-badge">👤 Admin</div>
+      <a href="#" class="btn btn-logout">Logout</a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container">
+    <!-- Header -->
+    <div class="dashboard-header">
+      <div>
+        <h1 class="dashboard-title">Settings</h1>
+        <p class="dashboard-subtitle">Configure platform and system preferences</p>
+      </div>
+      <div class="dashboard-controls">
+        <button class="btn btn-primary">Save Changes</button>
+        <button class="btn btn-secondary">Reset to Defaults</button>
+      </div>
+    </div>
+
+    <!-- Settings Tabs -->
+    <div class="tabs">
+      <button class="tab active" data-tab="general">General</button>
+      <button class="tab" data-tab="network">Network</button>
+      <button class="tab" data-tab="security">Security</button>
+      <button class="tab" data-tab="notifications">Notifications</button>
+      <button class="tab" data-tab="performance">Performance</button>
+      <button class="tab" data-tab="about">About</button>
+    </div>
+
+    <!-- General Settings -->
+    <div id="general" class="tab-content active">
+      <div class="card">
+        <h2 class="card-title">General Settings</h2>
+        <div class="form-group" style="margin-top: 1.5rem;">
+          <label>Platform Name</label>
+          <input type="text" value="SDN Management Platform" placeholder="Enter platform name">
+        </div>
+
+        <div class="form-group">
+          <label>Organization</label>
+          <input type="text" value="Network Operations Center" placeholder="Enter organization name">
+        </div>
+
+        <div class="form-group">
+          <label>Contact Email</label>
+          <input type="email" value="admin@network.local" placeholder="Enter contact email">
+        </div>
+
+        <div class="form-group">
+          <label>Phone Number</label>
+          <input type="tel" value="+1-555-123-4567" placeholder="Enter phone number">
+        </div>
+
+        <div class="form-group">
+          <label>Location</label>
+          <input type="text" value="Data Center 1" placeholder="Enter location">
+        </div>
+
+        <div class="form-group">
+          <label>Theme</label>
+          <select>
+            <option selected>Dark</option>
+            <option>Light</option>
+            <option>Auto</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Time Zone</label>
+          <select>
+            <option selected>UTC</option>
+            <option>EST</option>
+            <option>CST</option>
+            <option>MST</option>
+            <option>PST</option>
+          </select>
+        </div>
+
+        <div class="form-group">
+          <label>Date Format</label>
+          <select>
+            <option selected>YYYY-MM-DD</option>
+            <option>MM/DD/YYYY</option>
+            <option>DD/MM/YYYY</option>
+          </select>
+        </div>
+
+        <button class="btn btn-primary" style="width: 100%; margin-top: 1rem;">Update General Settings</button>
+      </div>
+    </div>
+
+    <!-- Network Settings -->
+    <div id="network" class="tab-content">
+      <div class="card">
+        <h2 class="card-title">Network Configuration</h2>
+        
+        <div style="margin-top: 1.5rem; padding: 1rem; background-color: var(--surface-light); border-radius: 0.25rem; margin-bottom: 1.5rem;">
+          <h3 style="color: var(--secondary-color); margin-bottom: 0.75rem;">Controller Settings</h3>
+          <div class="form-group">
+            <label>Primary Controller IP</label>
+            <input type="text" value="192.168.0.100" placeholder="Enter IP address">
+          </div>
+
+          <div class="form-group">
+            <label>Controller Port</label>
+            <input type="number" value="6633" placeholder="Enter port number">
+          </div>
+
+          <div class="form-group">
+            <label>OpenFlow Version</label>
+            <select>
+              <option>1.3</option>
+              <option selected>1.4</option>
+              <option>1.5</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="margin-top: 1.5rem; padding: 1rem; background-color: var(--surface-light); border-radius: 0.25rem; margin-bottom: 1.5rem;">
+          <h3 style="color: var(--secondary-color); margin-bottom: 0.75rem;">Network Interface</h3>
+          <div class="form-group">
+            <label>Management Interface</label>
+            <input type="text" value="eth0" placeholder="Enter interface name" disabled>
+          </div>
+
+          <div class="form-group">
+            <label>Management IP</label>
+            <input type="text" value="10.0.0.1/24" placeholder="Enter IP with CIDR" disabled>
+          </div>
+
+          <div class="form-group">
+            <label>Default Gateway</label>
+            <input type="text" value="10.0.0.254" placeholder="Enter gateway IP">
+          </div>
+        </div>
+
+        <div style="margin-top: 1.5rem; padding: 1rem; background-color: var(--surface-light); border-radius: 0.25rem;">
+          <h3 style="color: var(--secondary-color); margin-bottom: 0.75rem;">DNS Settings</h3>
+          <div class="form-group">
+            <label>Primary DNS</label>
+            <input type="text" value="8.8.8.8" placeholder="Enter DNS server">
+          </div>
+
+          <div class="form-group">
+            <label>Secondary DNS</label>
+            <input type="text" value="8.8.4.4" placeholder="Enter secondary DNS">
+          </div>
+        </div>
+
+        <button class="btn btn-primary" style="width: 100%; margin-top: 1.5rem;">Update Network Settings</button>
+      </div>
+    </div>
+
+    <!-- Security Settings -->
+    <div id="security" class="tab-content">
+      <div class="card">
+        <h2 class="card-title">Security Configuration</h2>
+        
+        <div style="margin-top: 1.5rem; padding: 1rem; background-color: var(--surface-light); border-radius: 0.25rem; margin-bottom: 1.5rem;">
+          <h3 style="color: var(--secondary-color); margin-bottom: 0.75rem;">Authentication</h3>
+          <div class="form-group">
+            <label style="display: flex; align-items: center; gap: 0.5rem;">
+              <input type="checkbox" checked>
+              <span>Enable Two-Factor Authentication</span>
+            </label>
+          </div>
+
+          <div class="form-group">
+            <label>Session Timeout (minutes)</label>
+            <input type="number" value="30" placeholder="Enter timeout duration">
+          </div>
+
+          <div class="form-group">
+            <label>Password Policy</label>
+            <select>
+              <option>Low</option>
+              <option selected>Medium</option>
+              <option>High</option>
+              <option>Very High</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="margin-top: 1.5rem; padding: 1rem; background-color: var(--surface-light); border-radius: 0.25rem; margin-bottom: 1.5rem;">
+          <h3 style="color: var(--secondary-color); margin-bottom: 0.75rem;">Encryption</h3>
+          <div class="form-group">
+            <label style="display: flex; align-items: center; gap: 0.5rem;">
+              <input type="checkbox" checked>
+              <span>Enable SSL/TLS</span>
+            </label>
+          </div>
+
+          <div class="form-group">
+            <label>TLS Version</label>
+            <select>
+              <option>1.1</option>
+              <option>1.2</option>
+              <option selected>1.3</option>
+            </select>
+          </div>
+
+          <div class="form-group">
+            <label>Certificate Status</label>
+            <input type="text" value="Valid until 2026-01-15" disabled>
+          </div>
+        </div>
+
+        <div style="margin-top: 1.5rem; padding: 1rem; background-color: var(--surface-light); border-radius: 0.25rem;">
+          <h3 style="color: var(--secondary-color); margin-bottom: 0.75rem;">Threat Detection</h3>
+          <div class="form-group">
+            <label style="display: flex; align-items: center; gap: 0.5rem;">
+              <input type="checkbox" checked>
+              <span>Enable Intrusion Detection</span>
+            </label>
+          </div>
+
+          <div class="form-group">
+            <label style="display: flex; align-items: center; gap: 0.5rem;">
+              <input type="checkbox" checked>
+              <span>Enable DDoS Protection</span>
+            </label>
+          </div>
+
+          <div class="form-group">
+            <label>Threat Level Sensitivity</label>
+            <select>
+              <option>Low</option>
+              <option>Medium</option>
+              <option selected>High</option>
+            </select>
+          </div>
+        </div>
+
+        <button class="btn btn-primary" style="width: 100%; margin-top: 1.5rem;">Update Security Settings</button>
+      </div>
+    </div>
+
+    <!-- Notification Settings -->
+    <div id="notifications" class="tab-content">
+      <div class="card">
+        <h2 class="card-title">Notification Preferences</h2>
+        
+        <div style="margin-top: 1.5rem; padding: 1rem; background-color: var(--surface-light); border-radius: 0.25rem; margin-bottom: 1.5rem;">
+          <h3 style="color: var(--secondary-color); margin-bottom: 0.75rem;">Email Notifications</h3>
+          <div class="form-group">
+            <label>Email Address</label>
+            <input type="email" value="admin@network.local" placeholder="Enter email">
+          </div>
+
+          <div class="form-group">
+            <label style="display: flex; align-items: center; gap: 0.5rem;">
+              <input type="checkbox" checked>
+              <span>Critical Alerts</span>
+            </label>
+          </div>
+
+          <div class="form-group">
+            <label style="display: flex; align-items: center; gap: 0.5rem;">
+              <input type="checkbox" checked>
+              <span>Warning Alerts</span>
+            </label>
+          </div>
+
+          <div class="form-group">
+            <label style="display: flex; align-items: center; gap: 0.5rem;">
+              <input type="checkbox">
+              <span>Info Messages</span>
+            </label>
+          </div>
+        </div>
+
+        <div style="margin-top: 1.5rem; padding: 1rem; background-color: var(--surface-light); border-radius: 0.25rem; margin-bottom: 1.5rem;">
+          <h3 style="color: var(--secondary-color); margin-bottom: 0.75rem;">In-App Notifications</h3>
+          <div class="form-group">
+            <label style="display: flex; align-items: center; gap: 0.5rem;">
+              <input type="checkbox" checked>
+              <span>Enable In-App Alerts</span>
+            </label>
+          </div>
+
+          <div class="form-group">
+            <label style="display: flex; align-items: center; gap: 0.5rem;">
+              <input type="checkbox" checked>
+              <span>Sound Alerts</span>
+            </label>
+          </div>
+
+          <div class="form-group">
+            <label>Notification Timeout</label>
+            <input type="number" value="5" placeholder="Enter seconds">
+          </div>
+        </div>
+
+        <div style="margin-top: 1.5rem; padding: 1rem; background-color: var(--surface-light); border-radius: 0.25rem;">
+          <h3 style="color: var(--secondary-color); margin-bottom: 0.75rem;">Scheduled Reports</h3>
+          <div class="form-group">
+            <label style="display: flex; align-items: center; gap: 0.5rem;">
+              <input type="checkbox" checked>
+              <span>Daily Summary Report</span>
+            </label>
+          </div>
+
+          <div class="form-group">
+            <label style="display: flex; align-items: center; gap: 0.5rem;">
+              <input type="checkbox" checked>
+              <span>Weekly Performance Report</span>
+            </label>
+          </div>
+
+          <div class="form-group">
+            <label style="display: flex; align-items: center; gap: 0.5rem;">
+              <input type="checkbox">
+              <span>Monthly Security Audit</span>
+            </label>
+          </div>
+        </div>
+
+        <button class="btn btn-primary" style="width: 100%; margin-top: 1.5rem;">Update Notification Settings</button>
+      </div>
+    </div>
+
+    <!-- Performance Settings -->
+    <div id="performance" class="tab-content">
+      <div class="card">
+        <h2 class="card-title">Performance Configuration</h2>
+        
+        <div style="margin-top: 1.5rem; padding: 1rem; background-color: var(--surface-light); border-radius: 0.25rem; margin-bottom: 1.5rem;">
+          <h3 style="color: var(--secondary-color); margin-bottom: 0.75rem;">Data Retention</h3>
+          <div class="form-group">
+            <label>Retention Period (days)</label>
+            <input type="number" value="90" placeholder="Enter retention days">
+          </div>
+
+          <div class="form-group">
+            <label>Archive Old Data</label>
+            <select>
+              <option>Never</option>
+              <option selected>After 30 days</option>
+              <option>After 60 days</option>
+              <option>After 90 days</option>
+            </select>
+          </div>
+        </div>
+
+        <div style="margin-top: 1.5rem; padding: 1rem; background-color: var(--surface-light); border-radius: 0.25rem; margin-bottom: 1.5rem;">
+          <h3 style="color: var(--secondary-color); margin-bottom: 0.75rem;">Cache Settings</h3>
+          <div class="form-group">
+            <label style="display: flex; align-items: center; gap: 0.5rem;">
+              <input type="checkbox" checked>
+              <span>Enable Caching</span>
+            </label>
+          </div>
+
+          <div class="form-group">
+            <label>Cache Size (MB)</label>
+            <input type="number" value="512" placeholder="Enter cache size">
+          </div>
+
+          <div class="form-group">
+            <label>Cache TTL (seconds)</label>
+            <input type="number" value="3600" placeholder="Enter TTL">
+          </div>
+        </div>
+
+        <div style="margin-top: 1.5rem; padding: 1rem; background-color: var(--surface-light); border-radius: 0.25rem;">
+          <h3 style="color: var(--secondary-color); margin-bottom: 0.75rem;">Optimization</h3>
+          <div class="form-group">
+            <label>Update Interval (seconds)</label>
+            <input type="number" value="5" placeholder="Enter update interval">
+          </div>
+
+          <div class="form-group">
+            <label>Query Timeout (seconds)</label>
+            <input type="number" value="30" placeholder="Enter timeout">
+          </div>
+
+          <div class="form-group">
+            <label>Max Concurrent Queries</label>
+            <input type="number" value="100" placeholder="Enter max concurrent">
+          </div>
+        </div>
+
+        <button class="btn btn-primary" style="width: 100%; margin-top: 1.5rem;">Update Performance Settings</button>
+      </div>
+    </div>
+
+    <!-- About Section -->
+    <div id="about" class="tab-content">
+      <div class="card">
+        <h2 class="card-title">About SDN Management Platform</h2>
+        <div style="margin-top: 1.5rem;">
+          <div style="margin-bottom: 1.5rem; padding: 1rem; background-color: var(--surface-light); border-radius: 0.25rem;">
+            <div style="font-weight: 600; margin-bottom: 0.5rem;">Platform Version</div>
+            <div style="color: var(--text-secondary); font-size: 0.9rem;">2.1.0</div>
+          </div>
+
+          <div style="margin-bottom: 1.5rem; padding: 1rem; background-color: var(--surface-light); border-radius: 0.25rem;">
+            <div style="font-weight: 600; margin-bottom: 0.5rem;">Build Number</div>
+            <div style="color: var(--text-secondary); font-size: 0.9rem;">20250115.001</div>
+          </div>
+
+          <div style="margin-bottom: 1.5rem; padding: 1rem; background-color: var(--surface-light); border-radius: 0.25rem;">
+            <div style="font-weight: 600; margin-bottom: 0.5rem;">Release Date</div>
+            <div style="color: var(--text-secondary); font-size: 0.9rem;">January 15, 2025</div>
+          </div>
+
+          <div style="margin-bottom: 1.5rem; padding: 1rem; background-color: var(--surface-light); border-radius: 0.25rem;">
+            <div style="font-weight: 600; margin-bottom: 0.5rem;">License</div>
+            <div style="color: var(--text-secondary); font-size: 0.9rem;">Enterprise Pro</div>
+          </div>
+
+          <div style="margin-bottom: 1.5rem; padding: 1rem; background-color: var(--surface-light); border-radius: 0.25rem;">
+            <div style="font-weight: 600; margin-bottom: 0.5rem;">Documentation</div>
+            <div style="color: var(--text-secondary); font-size: 0.9rem;"><a href="#" style="color: var(--secondary-color);">View Online Documentation</a></div>
+          </div>
+
+          <div style="padding: 1rem; background-color: var(--surface-light); border-radius: 0.25rem;">
+            <div style="font-weight: 600; margin-bottom: 0.5rem;">Support</div>
+            <div style="color: var(--text-secondary); font-size: 0.9rem;">support@sdnplatform.com | +1-555-SDN-HELP</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/api-client.js"></script>
+  <script src="js/real-data-client.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

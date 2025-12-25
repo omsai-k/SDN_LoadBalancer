@@ -1,0 +1,465 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Security Control Panel - SDN Management Platform</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .control-card {
+      background-color: var(--surface);
+      border: 1px solid var(--border-color);
+      border-radius: 0.5rem;
+      padding: 1.5rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .attack-form {
+      display: grid;
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+
+    .attack-button {
+      background-color: var(--danger-color);
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 0.25rem;
+      cursor: pointer;
+      font-weight: 600;
+      transition: all 0.3s ease;
+    }
+
+    .attack-button:hover {
+      background-color: #dc2626;
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(239, 68, 68, 0.3);
+    }
+
+    .attack-type-select {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 0.75rem;
+      margin-bottom: 1rem;
+    }
+
+    .attack-option {
+      padding: 0.75rem;
+      border: 2px solid var(--border-color);
+      border-radius: 0.25rem;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      text-align: center;
+    }
+
+    .attack-option:hover {
+      border-color: var(--secondary-color);
+    }
+
+    .attack-option.selected {
+      background-color: var(--danger-color);
+      border-color: var(--danger-color);
+      color: white;
+    }
+
+    .threat-item {
+      background-color: var(--surface-light);
+      padding: 1rem;
+      border-left: 4px solid;
+      margin-bottom: 1rem;
+      border-radius: 0.25rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .threat-info {
+      flex: 1;
+    }
+
+    .threat-actions {
+      display: flex;
+      gap: 0.5rem;
+    }
+
+    .threat-actions button {
+      padding: 0.4rem 0.8rem;
+      font-size: 0.85rem;
+    }
+
+    .ip-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem;
+      background-color: var(--surface-light);
+      border-left: 3px solid var(--danger-color);
+      margin-bottom: 0.75rem;
+      border-radius: 0.25rem;
+    }
+
+    .ip-info {
+      flex: 1;
+    }
+
+    .ip-status {
+      color: var(--text-secondary);
+      font-size: 0.85rem;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .stat-card {
+      background-color: var(--surface-light);
+      padding: 1rem;
+      border-radius: 0.25rem;
+      text-align: center;
+    }
+
+    .stat-card-value {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: var(--secondary-color);
+      margin: 0.5rem 0;
+    }
+
+    .stat-card-label {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav>
+    <a href="index.html" class="nav-brand">SDN Management Platform</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Dashboard</a></li>
+      <li><a href="topology.html">Topology</a></li>
+      <li><a href="threat-detection.html">Threat Detection</a></li>
+      <li><a href="load-balancing.html">Load Balancing</a></li>
+      <li><a href="analytics.html">Analytics</a></li>
+      <li><a href="controllers.html">Controllers</a></li>
+      <li><a href="security-control.html">Security Control</a></li>
+      <li><a href="settings.html">Settings</a></li>
+    </ul>
+    <div class="user-section">
+      <div class="user-badge">👤 Admin</div>
+      <a href="#" class="btn btn-logout">Logout</a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container">
+    <!-- Header -->
+    <div class="dashboard-header">
+      <div>
+        <h1 class="dashboard-title">Security Control Panel</h1>
+        <p class="dashboard-subtitle">Attack simulation, threat management, and security controls</p>
+      </div>
+      <div class="dashboard-controls">
+        <button class="btn btn-primary" onclick="fetchStats()">Refresh</button>
+      </div>
+    </div>
+
+    <!-- Statistics -->
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-card-label">Active Threats</div>
+        <div class="stat-card-value" id="active-threats-count">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">Blocked IPs</div>
+        <div class="stat-card-value" id="blocked-ips-count">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">Threat Log</div>
+        <div class="stat-card-value" id="threat-log-count">0</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-card-label">Status</div>
+        <div class="stat-card-value" style="color: #10b981;">
+          <div class="connection-dot connected" style="display: inline-block; margin-right: 0.5rem;"></div>
+          <span id="api-status">Connected</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab active" data-tab="attack-simulator">Attack Simulator</button>
+      <button class="tab" data-tab="threat-management">Threat Management</button>
+      <button class="tab" data-tab="ip-management">IP Management</button>
+    </div>
+
+    <!-- Attack Simulator Tab -->
+    <div id="attack-simulator" class="tab-content active">
+      <div class="control-card">
+        <h2 class="card-title">⚔️ Attack Simulation</h2>
+        <p class="card-subtitle">Simulate network attacks for testing and training</p>
+
+        <div class="attack-form">
+          <!-- Attack Type Selection -->
+          <div>
+            <label style="display: block; margin-bottom: 1rem; font-weight: 600;">Select Attack Type:</label>
+            <div class="attack-type-select">
+              <div class="attack-option" onclick="selectAttackType('ddos')">
+                <div style="font-weight: 600;">DDoS</div>
+                <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.25rem;">Critical</div>
+              </div>
+              <div class="attack-option" onclick="selectAttackType('port_scan')">
+                <div style="font-weight: 600;">Port Scan</div>
+                <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.25rem;">Critical</div>
+              </div>
+              <div class="attack-option" onclick="selectAttackType('syn_flood')">
+                <div style="font-weight: 600;">SYN Flood</div>
+                <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.25rem;">Critical</div>
+              </div>
+              <div class="attack-option" onclick="selectAttackType('brute_force')">
+                <div style="font-weight: 600;">Brute Force</div>
+                <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.25rem;">High</div>
+              </div>
+              <div class="attack-option" onclick="selectAttackType('sql_injection')">
+                <div style="font-weight: 600;">SQL Injection</div>
+                <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.25rem;">High</div>
+              </div>
+              <div class="attack-option" onclick="selectAttackType('malware')">
+                <div style="font-weight: 600;">Malware</div>
+                <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.25rem;">High</div>
+              </div>
+              <div class="attack-option" onclick="selectAttackType('unauthorized_access')">
+                <div style="font-weight: 600;">Unauthorized Access</div>
+                <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.25rem;">Medium</div>
+              </div>
+              <div class="attack-option" onclick="selectAttackType('bandwidth_spike')">
+                <div style="font-weight: 600;">Bandwidth Spike</div>
+                <div style="font-size: 0.85rem; color: var(--text-secondary); margin-top: 0.25rem;">Medium</div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Attack Parameters -->
+          <div class="form-row">
+            <div class="form-group">
+              <label>Source IP</label>
+              <input type="text" id="source-ip" placeholder="e.g., 203.0.113.42" value="203.0.113.42">
+            </div>
+            <div class="form-group">
+              <label>Target</label>
+              <select id="target-select">
+                <option value="Switch-1">Switch-1</option>
+                <option value="Switch-2" selected>Switch-2</option>
+                <option value="Switch-3">Switch-3</option>
+                <option value="Controller">Controller</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Duration (seconds)</label>
+              <input type="number" id="duration-input" placeholder="Duration in seconds" value="300">
+            </div>
+          </div>
+
+          <!-- Launch Button -->
+          <button class="attack-button" onclick="launchAttack()">
+            🎯 Launch Attack Simulation
+          </button>
+        </div>
+
+        <!-- Quick Attack Templates -->
+        <div style="margin-top: 2rem;">
+          <h3 style="margin-bottom: 1rem; color: var(--text-secondary);">Quick Templates:</h3>
+          <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: 0.75rem;">
+            <button class="btn btn-secondary" onclick="quickAttack('ddos', 300)">DDoS (5min)</button>
+            <button class="btn btn-secondary" onclick="quickAttack('port_scan', 60)">Port Scan (1min)</button>
+            <button class="btn btn-secondary" onclick="quickAttack('syn_flood', 120)">SYN Flood (2min)</button>
+            <button class="btn btn-secondary" onclick="quickAttack('brute_force', 180)">Brute Force (3min)</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Threat Management Tab -->
+    <div id="threat-management" class="tab-content">
+      <div class="control-card">
+        <h2 class="card-title">🚨 Active Threats</h2>
+        <p class="card-subtitle">Monitor and manage active threats</p>
+        <div id="threats-container" style="margin-top: 1.5rem;">
+          <div style="text-align: center; color: var(--text-secondary); padding: 2rem;">
+            No active threats detected. <a href="#" onclick="quickAttack('ddos', 300); return false;" style="color: var(--secondary-color);">Simulate an attack</a>
+          </div>
+        </div>
+      </div>
+
+      <div class="control-card">
+        <h2 class="card-title">📜 Threat History</h2>
+        <p class="card-subtitle">Recent threat events</p>
+        <div id="threat-history-container" style="margin-top: 1.5rem;">
+          <div style="text-align: center; color: var(--text-secondary); padding: 2rem;">
+            No threat history available
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- IP Management Tab -->
+    <div id="ip-management" class="tab-content">
+      <div class="control-card">
+        <h2 class="card-title">🚫 IP Blocking & Management</h2>
+        <p class="card-subtitle">Block or whitelist IP addresses</p>
+
+        <div class="form-group" style="margin-bottom: 1.5rem;">
+          <label>Block IP Address</label>
+          <div style="display: flex; gap: 0.5rem;">
+            <input type="text" id="ip-to-block" placeholder="Enter IP address (e.g., 192.168.1.100)" style="flex: 1;">
+            <button class="btn btn-primary" onclick="blockIPManual()">Block IP</button>
+          </div>
+        </div>
+
+        <div>
+          <h3 style="margin-bottom: 1rem; color: var(--text-secondary);">Blocked IPs:</h3>
+          <div id="blocked-ips-list" style="margin-top: 1rem;">
+            <div style="text-align: center; color: var(--text-secondary); padding: 1rem;">
+              No blocked IPs
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="control-card">
+        <h2 class="card-title">📊 IP Management Statistics</h2>
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-card-label">Total Blocked</div>
+            <div class="stat-card-value" id="total-blocked-ips">0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-label">Active Blocks</div>
+            <div class="stat-card-value" id="active-blocked-ips">0</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-card-label">Last Blocked</div>
+            <div class="stat-card-value" id="last-blocked-time">-</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let selectedAttackType = 'ddos';
+    let activeAttacks = [];
+    let blockedIPsList = [];
+
+    function selectAttackType(type) {
+      selectedAttackType = type;
+      document.querySelectorAll('.attack-option').forEach(el => el.classList.remove('selected'));
+      event.target.closest('.attack-option').classList.add('selected');
+    }
+
+    async function launchAttack() {
+      const sourceIP = document.getElementById('source-ip').value;
+      const target = document.getElementById('target-select').value;
+      const duration = parseInt(document.getElementById('duration-input').value) || 300;
+
+      if (!sourceIP) {
+        alert('Please enter a source IP');
+        return;
+      }
+
+      console.log(`Launching attack: ${selectedAttackType} from ${sourceIP} to ${target}`);
+      await simulateAttack(selectedAttackType, sourceIP, target, duration);
+      
+      // Refresh threats display
+      setTimeout(fetchThreats, 1000);
+    }
+
+    function quickAttack(attackType, duration) {
+      selectedAttackType = attackType;
+      const sourceIP = `203.0.113.${Math.floor(Math.random() * 254) + 1}`;
+      document.getElementById('source-ip').value = sourceIP;
+      document.getElementById('duration-input').value = duration;
+      
+      launchAttack();
+    }
+
+    function blockIPManual() {
+      const ip = document.getElementById('ip-to-block').value;
+      if (!ip) {
+        alert('Please enter an IP address');
+        return;
+      }
+
+      blockIP(ip);
+      document.getElementById('ip-to-block').value = '';
+      setTimeout(fetchBlockedIPs, 500);
+    }
+
+    // Override addThreatAlert for this page
+    function addThreatAlert(threat) {
+      const container = document.getElementById('threats-container');
+      if (!container) return;
+
+      if (container.querySelector('div:contains("No active threats")')) {
+        container.innerHTML = '';
+      }
+
+      const threatHtml = `
+        <div class="threat-item threat-${threat.severity}" data-threat-id="${threat.id}">
+          <div class="threat-info">
+            <div style="font-weight: 600; margin-bottom: 0.25rem;">🚨 ${threat.description}</div>
+            <div style="color: var(--text-secondary); font-size: 0.9rem;">
+              <strong>Source:</strong> ${threat.source_ip} | 
+              <strong>Target:</strong> ${threat.target} | 
+              <strong>Severity:</strong> ${threat.severity}
+            </div>
+          </div>
+          <div class="threat-actions">
+            <button onclick="respondToThreat(${threat.id}, 'block_ip', '${threat.source_ip}')" class="btn btn-danger">Block</button>
+            <button onclick="stopAttack(${threat.id})" class="btn btn-secondary">Stop</button>
+          </div>
+        </div>
+      `;
+
+      container.insertAdjacentHTML('beforeend', threatHtml);
+    }
+
+    // Initialize on page load
+    document.addEventListener('DOMContentLoaded', function() {
+      console.log('Security Control Panel initialized');
+      fetchBlockedIPs();
+      fetchThreats();
+      
+      // Auto-refresh every 3 seconds
+      setInterval(fetchThreats, 3000);
+      setInterval(fetchBlockedIPs, 5000);
+    });
+
+    // Tab switching
+    document.querySelectorAll('.tab').forEach(tab => {
+      tab.addEventListener('click', function() {
+        const tabName = this.getAttribute('data-tab');
+        document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+        document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+        this.classList.add('active');
+        document.getElementById(tabName).classList.add('active');
+      });
+    });
+  </script>
+
+  <script src="js/api-client.js"></script>
+  <script src="js/real-data-client.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

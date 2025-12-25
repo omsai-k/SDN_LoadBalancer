@@ -1,0 +1,454 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Analytics - SDN Management Platform</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav>
+    <a href="index.html" class="nav-brand">SDN Management Platform</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Dashboard</a></li>
+      <li><a href="topology.html">Topology</a></li>
+      <li><a href="threat-detection.html">Threat Detection</a></li>
+      <li><a href="load-balancing.html">Load Balancing</a></li>
+      <li><a href="analytics.html">Analytics</a></li>
+      <li><a href="controllers.html">Controllers</a></li>
+      <li><a href="security-control.html">Security Control</a></li>
+      <li><a href="settings.html">Settings</a></li>
+    </ul>
+    <div class="user-section">
+      <div class="user-badge">👤 Admin</div>
+      <a href="#" class="btn btn-logout">Logout</a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container">
+    <!-- Header -->
+    <div class="dashboard-header">
+      <div>
+        <h1 class="dashboard-title">Analytics</h1>
+        <p class="dashboard-subtitle">Detailed network traffic and performance analysis</p>
+      </div>
+      <div class="dashboard-controls">
+        <button class="btn btn-primary">Generate Report</button>
+        <button class="btn btn-secondary">Export Data</button>
+      </div>
+    </div>
+
+    <!-- Time Range Filter -->
+    <div class="card" style="margin-bottom: 1.5rem;">
+      <div style="display: flex; gap: 1rem; flex-wrap: wrap;">
+        <button class="btn btn-secondary time-filter-btn" data-range="24h" style="flex: 1; min-width: 100px;">Last 24h</button>
+        <button class="btn btn-secondary time-filter-btn" data-range="7d" style="flex: 1; min-width: 100px;">Last 7 Days</button>
+        <button class="btn btn-primary time-filter-btn active" data-range="30d" style="flex: 1; min-width: 100px;">Last 30 Days</button>
+        <button class="btn btn-secondary time-filter-btn" data-range="custom" style="flex: 1; min-width: 100px;">Custom Range</button>
+      </div>
+    </div>
+
+    <!-- Analytics Tabs -->
+    <div class="tabs">
+      <button class="tab active" data-tab="traffic">Traffic</button>
+      <button class="tab" data-tab="performance">Performance</button>
+      <button class="tab" data-tab="applications">Applications</button>
+      <button class="tab" data-tab="users">Users</button>
+    </div>
+
+    <!-- Traffic Tab -->
+    <div id="traffic" class="tab-content active">
+      <div class="grid grid-2">
+        <div class="card">
+          <h2 class="card-title">Bandwidth Usage Over Time</h2>
+          <div class="chart-container">
+            <div class="chart-placeholder">
+              📊 Line Chart: Bandwidth Trends (Last 30 Days)
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2 class="card-title">Top Protocols</h2>
+          <div style="margin-top: 1rem;">
+            <div style="margin-bottom: 1rem;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                <span>TCP</span>
+                <span>62% - 1.2 TB</span>
+              </div>
+              <div style="background-color: var(--surface-light); height: 8px; border-radius: 4px; overflow: hidden;">
+                <div style="background-color: #3b82f6; height: 100%; width: 62%;"></div>
+              </div>
+            </div>
+            <div style="margin-bottom: 1rem;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                <span>UDP</span>
+                <span>25% - 480 GB</span>
+              </div>
+              <div style="background-color: var(--surface-light); height: 8px; border-radius: 4px; overflow: hidden;">
+                <div style="background-color: #10b981; height: 100%; width: 25%;"></div>
+              </div>
+            </div>
+            <div style="margin-bottom: 1rem;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                <span>ICMP</span>
+                <span>8% - 153 GB</span>
+              </div>
+              <div style="background-color: var(--surface-light); height: 8px; border-radius: 4px; overflow: hidden;">
+                <div style="background-color: #f59e0b; height: 100%; width: 8%;"></div>
+              </div>
+            </div>
+            <div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                <span>Other</span>
+                <span>5% - 96 GB</span>
+              </div>
+              <div style="background-color: var(--surface-light); height: 8px; border-radius: 4px; overflow: hidden;">
+                <div style="background-color: #8b5cf6; height: 100%; width: 5%;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2 class="card-title">Top Talkers</h2>
+          <div class="table-wrapper">
+            <table id="top-talkers">
+              <thead>
+                <tr>
+                  <th>Source IP</th>
+                  <th>Destination IP</th>
+                  <th>Data Sent</th>
+                  <th>% of Total</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td colspan="4" style="text-align: center; color: var(--text-secondary);">Loading real data...</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2 class="card-title">Traffic Direction</h2>
+          <div style="margin-top: 1rem;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; padding: 0.75rem; background-color: var(--surface-light); border-radius: 0.25rem;">
+              <span>🔴 Inbound Traffic</span>
+              <span style="color: #3b82f6; font-weight: bold;">856 GB</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; padding: 0.75rem; background-color: var(--surface-light); border-radius: 0.25rem;">
+              <span>🟢 Outbound Traffic</span>
+              <span style="color: #10b981; font-weight: bold;">923 GB</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; padding: 0.75rem; background-color: var(--surface-light); border-radius: 0.25rem;">
+              <span>🟡 Internal Traffic</span>
+              <span style="color: #f59e0b; font-weight: bold;">1.02 TB</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 0.75rem; background-color: var(--surface-light); border-radius: 0.25rem;">
+              <span>📊 Total Data Transferred</span>
+              <span style="color: #8b5cf6; font-weight: bold;">2.8 TB</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Performance Tab -->
+    <div id="performance" class="tab-content">
+      <div class="grid grid-2">
+        <div class="card">
+          <h2 class="card-title">Network Latency</h2>
+          <div class="chart-container">
+            <div class="chart-placeholder">
+              📊 Area Chart: Latency Distribution
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2 class="card-title">Packet Loss Statistics</h2>
+          <div style="margin-top: 1rem;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; padding: 0.75rem; background-color: var(--surface-light); border-radius: 0.25rem;">
+              <span>Average Packet Loss</span>
+              <span style="color: #10b981; font-weight: bold;">0.08%</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; padding: 0.75rem; background-color: var(--surface-light); border-radius: 0.25rem;">
+              <span>Max Packet Loss</span>
+              <span style="color: #f59e0b; font-weight: bold;">0.34%</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; padding: 0.75rem; background-color: var(--surface-light); border-radius: 0.25rem;">
+              <span>Total Packets Lost</span>
+              <span style="color: #ef4444; font-weight: bold;">2,847</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 0.75rem; background-color: var(--surface-light); border-radius: 0.25rem;">
+              <span>Packet Loss Trend</span>
+              <span style="color: #10b981; font-weight: bold;">↓ -2.3%</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2 class="card-title">Jitter Analysis</h2>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Link</th>
+                  <th>Avg Jitter</th>
+                  <th>Max Jitter</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Switch-1 to Switch-2</td>
+                  <td>0.45ms</td>
+                  <td>2.1ms</td>
+                  <td><span class="badge badge-success">Good</span></td>
+                </tr>
+                <tr>
+                  <td>Switch-2 to Switch-3</td>
+                  <td>0.38ms</td>
+                  <td>1.8ms</td>
+                  <td><span class="badge badge-success">Good</span></td>
+                </tr>
+                <tr>
+                  <td>Controller to Switch-1</td>
+                  <td>0.23ms</td>
+                  <td>0.9ms</td>
+                  <td><span class="badge badge-success">Excellent</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2 class="card-title">QoS Performance</h2>
+          <div style="margin-top: 1rem;">
+            <div style="margin-bottom: 1rem;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                <span>High Priority (Critical)</span>
+                <span>98.5%</span>
+              </div>
+              <div style="background-color: var(--surface-light); height: 8px; border-radius: 4px; overflow: hidden;">
+                <div style="background-color: #ef4444; height: 100%; width: 98.5%;"></div>
+              </div>
+            </div>
+            <div style="margin-bottom: 1rem;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                <span>Medium Priority</span>
+                <span>95.2%</span>
+              </div>
+              <div style="background-color: var(--surface-light); height: 8px; border-radius: 4px; overflow: hidden;">
+                <div style="background-color: #f59e0b; height: 100%; width: 95.2%;"></div>
+              </div>
+            </div>
+            <div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                <span>Low Priority (Best Effort)</span>
+                <span>89.3%</span>
+              </div>
+              <div style="background-color: var(--surface-light); height: 8px; border-radius: 4px; overflow: hidden;">
+                <div style="background-color: #10b981; height: 100%; width: 89.3%;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Applications Tab -->
+    <div id="applications" class="tab-content">
+      <div class="card">
+        <h2 class="card-title">Application Traffic Analysis</h2>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Application</th>
+                <th>Protocol</th>
+                <th>Data Volume</th>
+                <th>Packets</th>
+                <th>% of Total</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Web Browsing (HTTP/HTTPS)</td>
+                <td>TCP:80,443</td>
+                <td>523 GB</td>
+                <td>245M</td>
+                <td>34.5%</td>
+                <td><span class="badge badge-success">Normal</span></td>
+              </tr>
+              <tr>
+                <td>Database Sync</td>
+                <td>TCP:3306,5432</td>
+                <td>412 GB</td>
+                <td>128M</td>
+                <td>27.2%</td>
+                <td><span class="badge badge-success">Normal</span></td>
+              </tr>
+              <tr>
+                <td>Video Streaming</td>
+                <td>TCP/UDP:1935</td>
+                <td>298 GB</td>
+                <td>542M</td>
+                <td>19.6%</td>
+                <td><span class="badge badge-success">Normal</span></td>
+              </tr>
+              <tr>
+                <td>File Transfer (FTP/SFTP)</td>
+                <td>TCP:20,21,22</td>
+                <td>156 GB</td>
+                <td>89M</td>
+                <td>10.3%</td>
+                <td><span class="badge badge-success">Normal</span></td>
+              </tr>
+              <tr>
+                <td>DNS Queries</td>
+                <td>UDP:53</td>
+                <td>28 GB</td>
+                <td>156M</td>
+                <td>1.8%</td>
+                <td><span class="badge badge-success">Normal</span></td>
+              </tr>
+              <tr>
+                <td>Other Services</td>
+                <td>Various</td>
+                <td>83 GB</td>
+                <td>42M</td>
+                <td>5.5%</td>
+                <td><span class="badge badge-info">Monitoring</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Users Tab -->
+    <div id="users" class="tab-content">
+      <div class="card">
+        <h2 class="card-title">User Traffic Analysis</h2>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>User ID</th>
+                <th>Host IP</th>
+                <th>Data Used</th>
+                <th>Packets</th>
+                <th>Sessions</th>
+                <th>Last Active</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>user@host-a</td>
+                <td>192.168.1.10</td>
+                <td>45.2 GB</td>
+                <td>21M</td>
+                <td>23</td>
+                <td>2025-01-15 14:55:12</td>
+                <td><span class="badge badge-success">Active</span></td>
+              </tr>
+              <tr>
+                <td>user@host-b</td>
+                <td>192.168.2.15</td>
+                <td>38.7 GB</td>
+                <td>18M</td>
+                <td>19</td>
+                <td>2025-01-15 14:52:45</td>
+                <td><span class="badge badge-success">Active</span></td>
+              </tr>
+              <tr>
+                <td>user@host-c</td>
+                <td>192.168.3.20</td>
+                <td>52.1 GB</td>
+                <td>25M</td>
+                <td>27</td>
+                <td>2025-01-15 14:58:30</td>
+                <td><span class="badge badge-success">Active</span></td>
+              </tr>
+              <tr>
+                <td>service-account</td>
+                <td>10.0.0.50</td>
+                <td>156.3 GB</td>
+                <td>89M</td>
+                <td>5</td>
+                <td>2025-01-15 15:01:00</td>
+                <td><span class="badge badge-info">Service</span></td>
+              </tr>
+              <tr>
+                <td>guest@host-d</td>
+                <td>192.168.1.25</td>
+                <td>2.1 GB</td>
+                <td>1.2M</td>
+                <td>3</td>
+                <td>2025-01-15 14:30:22</td>
+                <td><span class="badge badge-warning">Idle</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/api-client-simple.js"></script>
+  <script src="js/real-data-client.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    // Time range filter functionality
+    const timeFilterBtns = document.querySelectorAll('.time-filter-btn');
+    
+    timeFilterBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        // Remove active class from all buttons
+        timeFilterBtns.forEach(b => {
+          b.classList.remove('btn-primary');
+          b.classList.add('btn-secondary');
+        });
+        
+        // Add active class to clicked button
+        this.classList.remove('btn-secondary');
+        this.classList.add('btn-primary');
+        
+        const range = this.getAttribute('data-range');
+        console.log('Time range selected:', range);
+        
+        // Here you would normally fetch data for the selected range
+        // For now, just show that the selection works
+      });
+    });
+    
+    // Tab switching functionality
+    const tabBtns = document.querySelectorAll('.tab');
+    const tabContents = document.querySelectorAll('.tab-content');
+    
+    tabBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        const tabName = this.getAttribute('data-tab');
+        
+        // Hide all tabs
+        tabContents.forEach(content => content.classList.remove('active'));
+        
+        // Remove active class from all buttons
+        tabBtns.forEach(b => b.classList.remove('active'));
+        
+        // Show selected tab
+        document.getElementById(tabName).classList.add('active');
+        this.classList.add('active');
+      });
+    });
+  </script>
+</body>
+</html>

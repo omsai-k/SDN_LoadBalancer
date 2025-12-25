@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Threat Detection - SDN Management Platform</title>
+  <link rel="stylesheet" href="css/style.css">
+  <style>
+    .threat-item {
+      background-color: var(--surface-light);
+      padding: 1.25rem;
+      margin-bottom: 1rem;
+      border-left: 4px solid var(--border-color);
+      border-radius: 0.25rem;
+      transition: all 0.3s ease;
+    }
+
+    .threat-item.threat-critical {
+      border-left-color: var(--danger-color);
+      background-color: rgba(239, 68, 68, 0.05);
+    }
+
+    .threat-item.threat-warning {
+      border-left-color: var(--warning-color);
+      background-color: rgba(245, 158, 11, 0.05);
+    }
+
+    .threat-item.threat-info {
+      border-left-color: var(--secondary-color);
+      background-color: rgba(59, 130, 246, 0.05);
+    }
+
+    .threat-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+
+    .threat-name {
+      font-weight: 600;
+      color: var(--text-primary);
+    }
+
+    .threat-status {
+      padding: 0.25rem 0.75rem;
+      border-radius: 0.25rem;
+      font-size: 0.8rem;
+      font-weight: 600;
+    }
+
+    .status-detected {
+      background-color: rgba(239, 68, 68, 0.2);
+      color: #fca5a5;
+    }
+
+    .status-mitigated {
+      background-color: rgba(16, 185, 129, 0.2);
+      color: #86efac;
+    }
+
+    .status-monitoring {
+      background-color: rgba(245, 158, 11, 0.2);
+      color: #fcd34d;
+    }
+
+    .threat-details {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- Navigation -->
+  <nav>
+    <a href="index.html" class="nav-brand">SDN Management Platform</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Dashboard</a></li>
+      <li><a href="topology.html">Topology</a></li>
+      <li><a href="threat-detection.html">Threat Detection</a></li>
+      <li><a href="load-balancing.html">Load Balancing</a></li>
+      <li><a href="analytics.html">Analytics</a></li>
+      <li><a href="controllers.html">Controllers</a></li>
+      <li><a href="security-control.html">Security Control</a></li>
+      <li><a href="settings.html">Settings</a></li>
+    </ul>
+    <div class="user-section">
+      <div class="user-badge">👤 Admin</div>
+      <a href="#" class="btn btn-logout">Logout</a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container">
+    <!-- Header -->
+    <div class="dashboard-header">
+      <div>
+        <h1 class="dashboard-title">Threat Detection</h1>
+        <p class="dashboard-subtitle">Network security monitoring and anomaly detection</p>
+      </div>
+      <div class="dashboard-controls">
+        <button class="btn btn-primary" onclick="simulateThreatDetection()">Refresh Scan</button>
+        <button class="btn btn-secondary">Export Report</button>
+      </div>
+    </div>
+
+    <!-- Threat Statistics -->
+    <div class="stats">
+      <div class="stat-box">
+        <div class="stat-value" style="color: var(--danger-color);">2</div>
+        <div class="stat-label">Critical Threats</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value" style="color: var(--warning-color);">5</div>
+        <div class="stat-label">Warnings</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value" style="color: var(--accent-color);">98.5%</div>
+        <div class="stat-label">Network Protection</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value" style="color: var(--secondary-color);">14</div>
+        <div class="stat-label">Incidents This Month</div>
+      </div>
+    </div>
+
+    <!-- Alerts Section -->
+    <div class="card">
+      <h2 class="card-title">Active Threats & Anomalies</h2>
+      <p class="card-subtitle">Real-time security alerts</p>
+
+      <div class="threat-item threat-critical">
+        <div class="threat-header">
+          <div class=\"threat-name\">🚨 DDoS Attack Detected</div>
+          <div class=\"threat-status status-detected\">Detected</div>
+        </div>
+        <div class=\"threat-details\">
+          <strong>Severity:</strong> Critical | <strong>Source:</strong> 203.0.113.42 | <strong>Target:</strong> Switch-2 | <strong>Timestamp:</strong> <span id=\"threat-1-time\">Loading...</span>
+        </div>
+      </div>
+
+      <div class="threat-item threat-critical">
+        <div class="threat-header">
+          <div class="threat-name">🔴 Port Scan Activity</div>
+          <span class="threat-status status-detected">Detected</span>
+        </div>
+        <div class="threat-details">
+          <strong>Severity:</strong> Critical | <strong>Source:</strong> 198.51.100.15 | <strong>Ports Scanned:</strong> 50+ | <strong>Timestamp:</strong> 2025-01-15 14:42:10
+        </div>
+      </div>
+
+      <div class="threat-item threat-warning">
+        <div class="threat-header">
+          <div class="threat-name">⚠️ Unusual Traffic Pattern</div>
+          <span class="threat-status status-monitoring">Monitoring</span>
+        </div>
+        <div class="threat-details">
+          <strong>Severity:</strong> Medium | <strong>Source:</strong> Host-B (192.168.2.15) | <strong>Packets/sec:</strong> 15,234 | <strong>Timestamp:</strong> 2025-01-15 14:38:45
+        </div>
+      </div>
+
+      <div class="threat-item threat-warning">
+        <div class="threat-header">
+          <div class="threat-name">⚠️ Unauthorized Access Attempt</div>
+          <span class="threat-status status-monitoring">Monitoring</span>
+        </div>
+        <div class="threat-details">
+          <strong>Severity:</strong> Medium | <strong>Source:</strong> 192.0.2.88 | <strong>Attempts:</strong> 23 | <strong>Timestamp:</strong> 2025-01-15 14:35:12
+        </div>
+      </div>
+
+      <div class="threat-item threat-warning">
+        <div class="threat-header">
+          <div class="threat-name">⚠️ Bandwidth Spike</div>
+          <span class="threat-status status-monitoring">Monitoring</span>
+        </div>
+        <div class="threat-details">
+          <strong>Severity:</strong> Low | <strong>Source:</strong> Switch-1 | <strong>Increase:</strong> 230% | <strong>Timestamp:</strong> 2025-01-15 14:30:00
+        </div>
+      </div>
+
+      <div class="threat-item threat-info">
+        <div class="threat-header">
+          <div class="threat-name">✅ Malware Signature Match</div>
+          <span class="threat-status status-mitigated">Mitigated</span>
+        </div>
+        <div class="threat-details">
+          <strong>Severity:</strong> High | <strong>Signature:</strong> Trojan.Win32.Generic | <strong>Action:</strong> Blocked | <strong>Timestamp:</strong> 2025-01-15 14:25:33
+        </div>
+      </div>
+    </div>
+
+    <!-- Detection Configuration -->
+    <div class="grid grid-2" style="margin-top: 1.5rem;">
+      <div class="card">
+        <h2 class="card-title">Detection Methods</h2>
+        <div style="margin-top: 1rem;">
+          <div style="margin-bottom: 1rem; padding: 0.75rem; background-color: var(--surface-light); border-radius: 0.25rem;">
+            <div style="font-weight: 600; margin-bottom: 0.25rem;">🔍 Signature Detection</div>
+            <div style="color: var(--text-secondary); font-size: 0.9rem;">Rule-based threat detection</div>
+          </div>
+          <div style="margin-bottom: 1rem; padding: 0.75rem; background-color: var(--surface-light); border-radius: 0.25rem;">
+            <div style="font-weight: 600; margin-bottom: 0.25rem;">🤖 Anomaly Detection</div>
+            <div style="color: var(--text-secondary); font-size: 0.9rem;">ML-based behavioral analysis</div>
+          </div>
+          <div style="margin-bottom: 1rem; padding: 0.75rem; background-color: var(--surface-light); border-radius: 0.25rem;">
+            <div style="font-weight: 600; margin-bottom: 0.25rem;">📊 Traffic Analysis</div>
+            <div style="color: var(--text-secondary); font-size: 0.9rem;">Network flow inspection</div>
+          </div>
+          <div style="padding: 0.75rem; background-color: var(--surface-light); border-radius: 0.25rem;">
+            <div style="font-weight: 600; margin-bottom: 0.25rem;">🛡️ Threat Intelligence</div>
+            <div style="color: var(--text-secondary); font-size: 0.9rem;">External feed integration</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">Response Actions</h2>
+        <div style="margin-top: 1rem;">
+          <button class="btn btn-primary" style="width: 100%; margin-bottom: 0.75rem;">⛔ Isolate Host</button>
+          <button class="btn btn-primary" style="width: 100%; margin-bottom: 0.75rem;">🚫 Block IP Range</button>
+          <button class="btn btn-secondary" style="width: 100%; margin-bottom: 0.75rem;">📧 Send Alert</button>
+          <button class="btn btn-secondary" style="width: 100%;">📝 Create Ticket</button>
+        </div>
+        <div style="margin-top: 1.5rem; padding: 1rem; background-color: var(--surface-light); border-radius: 0.25rem;">
+          <div style="color: var(--text-secondary); font-size: 0.9rem;">
+            <strong>Last Full Scan:</strong> 2025-01-15 12:30:00<br>
+            <strong>Scan Duration:</strong> 4m 23s<br>
+            <strong>Vulnerabilities Found:</strong> 3
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Historical Threats -->
+    <div class="card" style="margin-top: 1.5rem;">
+      <h2 class="card-title">Threat History</h2>
+      <p class="card-subtitle">Recent resolved threats and incidents</p>
+      <div class="table-wrapper">
+        <table>
+          <thead>
+            <tr>
+              <th>Date</th>
+              <th>Threat Type</th>
+              <th>Severity</th>
+              <th>Status</th>
+              <th>Resolution Time</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>2025-01-14 18:22:15</td>
+              <td>SQL Injection Attempt</td>
+              <td><span class="badge badge-warning">Medium</span></td>
+              <td><span class="badge badge-success">Mitigated</span></td>
+              <td>2m 45s</td>
+            </tr>
+            <tr>
+              <td>2025-01-14 15:10:30</td>
+              <td>DNS Spoofing</td>
+              <td><span class="badge badge-warning">Medium</span></td>
+              <td><span class="badge badge-success">Blocked</span></td>
+              <td>5m 12s</td>
+            </tr>
+            <tr>
+              <td>2025-01-14 12:45:00</td>
+              <td>ARP Spoofing</td>
+              <td><span class="badge badge-danger">High</span></td>
+              <td><span class="badge badge-success">Resolved</span></td>
+              <td>8m 30s</td>
+            </tr>
+            <tr>
+              <td>2025-01-13 22:15:45</td>
+              <td>Man-in-the-Middle</td>
+              <td><span class="badge badge-danger">High</span></td>
+              <td><span class="badge badge-success">Prevented</span></td>
+              <td>3m 15s</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/api-client.js"></script>
+  <script src="js/real-data-client.js"></script>
+  <script src="js/app.js"></script>
+  <script>
+    // Update threat timestamps to current time
+    function updateThreatTimestamps() {
+      const now = new Date();
+      const timeOffsets = [-5, -2, -8, -12, -15, -20]; // minutes ago
+      
+      timeOffsets.forEach((offset, index) => {
+        const threatTime = new Date(now.getTime() + offset * 60000);
+        const timeStr = threatTime.toLocaleString('en-US', {
+          year: 'numeric',
+          month: '2-digit',
+          day: '2-digit',
+          hour: '2-digit',
+          minute: '2-digit',
+          second: '2-digit',
+          hour12: false
+        }).replace(/(\d+)\/(\d+)\/(\d+),/, '$3-$1-$2');
+        const elem = document.getElementById(`threat-${index + 1}-time`);
+        if (elem) elem.textContent = timeStr;
+      });
+    }
+
+    // Auto-refresh threat timestamps
+    updateThreatTimestamps();
+    setInterval(updateThreatTimestamps, 1000);
+    
+    // Initialize on load
+    document.addEventListener('DOMContentLoaded', updateThreatTimestamps);
+  </script>
+</body>
+</html>

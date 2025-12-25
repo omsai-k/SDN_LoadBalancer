@@ -1,0 +1,277 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Load Balancing - SDN Management Platform</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav>
+    <a href="index.html" class="nav-brand">SDN Management Platform</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Dashboard</a></li>
+      <li><a href="topology.html">Topology</a></li>
+      <li><a href="threat-detection.html">Threat Detection</a></li>
+      <li><a href="load-balancing.html">Load Balancing</a></li>
+      <li><a href="analytics.html">Analytics</a></li>
+      <li><a href="controllers.html">Controllers</a></li>
+      <li><a href="security-control.html">Security Control</a></li>
+      <li><a href="settings.html">Settings</a></li>
+    </ul>
+    <div class="user-section">
+      <div class="user-badge">👤 Admin</div>
+      <a href="#" class="btn btn-logout">Logout</a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container">
+    <!-- Header -->
+    <div class="dashboard-header">
+      <div>
+        <h1 class="dashboard-title">Load Balancing</h1>
+        <p class="dashboard-subtitle">Server load distribution and optimization</p>
+      </div>
+      <div class="dashboard-controls">
+        <button class="btn btn-primary">Rebalance</button>
+        <button class="btn btn-secondary">Configure Policy</button>
+      </div>
+    </div>
+
+    <!-- Load Balancer Status -->
+    <div class="stats">
+      <div class="stat-box">
+        <div class="stat-value" id="active-load-balancers-lb" style="color: var(--secondary-color);">-</div>
+        <div class="stat-label">Active Load Balancers</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value" id="avg-util-lb" style="color: var(--accent-color);">-</div>
+        <div class="stat-label">Average Utilization</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value" id="avg-response-time-lb" style="color: var(--warning-color);">-</div>
+        <div class="stat-label">Avg Response Time</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-value" id="failed-connections-lb" style="color: var(--danger-color);">-</div>
+        <div class="stat-label">Failed Connections</div>
+      </div>
+    </div>
+
+    <!-- Load Balancer Visualization -->
+    <div class="card">
+      <h2 class="card-title">Load Balancer Topology</h2>
+      <p class="card-subtitle">Visual representation of server distribution</p>
+      <div id="balancer-visualization"></div>
+    </div>
+
+    <!-- Load Balancing Policies -->
+    <div class="grid grid-2" style="margin-top: 1.5rem;">
+      <div class="card">
+        <h2 class="card-title">Active Policies</h2>
+        <div style="margin-top: 1rem;">
+          <div style="margin-bottom: 1rem; padding: 0.75rem; background-color: var(--surface-light); border-radius: 0.25rem; border-left: 3px solid var(--secondary-color);">
+            <div style="font-weight: 600;">Round Robin</div>
+            <div style="color: var(--text-secondary); font-size: 0.9rem;">Primary load distribution</div>
+            <div style="margin-top: 0.5rem;"><span class="badge badge-info">Active</span></div>
+          </div>
+          <div style="margin-bottom: 1rem; padding: 0.75rem; background-color: var(--surface-light); border-radius: 0.25rem; border-left: 3px solid var(--accent-color);">
+            <div style="font-weight: 600;">Least Connections</div>
+            <div style="color: var(--text-secondary); font-size: 0.9rem;">Backup policy for peak loads</div>
+            <div style="margin-top: 0.5rem;"><span class="badge badge-success">Configured</span></div>
+          </div>
+          <div style="margin-bottom: 1rem; padding: 0.75rem; background-color: var(--surface-light); border-radius: 0.25rem; border-left: 3px solid var(--warning-color);">
+            <div style="font-weight: 600;">IP Hash</div>
+            <div style="color: var(--text-secondary); font-size: 0.9rem;">Session persistence enabled</div>
+            <div style="margin-top: 0.5rem;"><span class="badge badge-success">Configured</span></div>
+          </div>
+          <div style="padding: 0.75rem; background-color: var(--surface-light); border-radius: 0.25rem; border-left: 3px solid var(--secondary-color);">
+            <div style="font-weight: 600;">Weighted Round Robin</div>
+            <div style="color: var(--text-secondary); font-size: 0.9rem;">Custom server weights</div>
+            <div style="margin-top: 0.5rem;"><span class="badge badge-info">Standby</span></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">Health Check Settings</h2>
+        <div class="form-group" style="margin-top: 1rem;">
+          <label>Health Check Interval</label>
+          <input type="text" value="5 seconds" disabled>
+        </div>
+        <div class="form-group">
+          <label>Timeout</label>
+          <input type="text" value="3 seconds" disabled>
+        </div>
+        <div class="form-group">
+          <label>Unhealthy Threshold</label>
+          <input type="text" value="3 attempts" disabled>
+        </div>
+        <div class="form-group">
+          <label>Healthy Threshold</label>
+          <input type="text" value="2 attempts" disabled>
+        </div>
+        <button class="btn btn-secondary" style="width: 100%; margin-top: 1rem;">Edit Settings</button>
+      </div>
+    </div>
+
+    <!-- Backend Servers -->
+    <div class="card" style="margin-top: 1.5rem;">
+      <h2 class="card-title">Backend Servers</h2>
+      <p class="card-subtitle">Connected servers and their current status</p>
+      <div class="table-wrapper">
+        <table id="backends-table">
+          <thead>
+            <tr>
+              <th>Server</th>
+              <th>IP Address</th>
+              <th>Port</th>
+              <th>Status</th>
+              <th>Load %</th>
+              <th>Connections</th>
+              <th>Response Time</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td colspan="8" style="text-align: center; color: var(--text-secondary);">Loading real data...</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+              <td>1.2ms</td>
+              <td><button class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;">Edit</button></td>
+            </tr>
+            <tr>
+              <td>Backend-2</td>
+              <td>192.168.1.101</td>
+              <td>8080</td>
+              <td><span class="badge badge-success">Healthy</span></td>
+              <td>
+                <div style="background-color: var(--surface-light); height: 20px; border-radius: 4px; overflow: hidden;">
+                  <div style="background-color: #10b981; height: 100%; width: 72%;"></div>
+                </div>
+                <div style="text-align: center; font-size: 0.8rem; color: var(--text-secondary);">72%</div>
+              </td>
+              <td>341</td>
+              <td>1.5ms</td>
+              <td><button class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;">Edit</button></td>
+            </tr>
+            <tr>
+              <td>Backend-3</td>
+              <td>192.168.1.102</td>
+              <td>8080</td>
+              <td><span class="badge badge-success">Healthy</span></td>
+              <td>
+                <div style="background-color: var(--surface-light); height: 20px; border-radius: 4px; overflow: hidden;">
+                  <div style="background-color: #10b981; height: 100%; width: 65%;"></div>
+                </div>
+                <div style="text-align: center; font-size: 0.8rem; color: var(--text-secondary);">65%</div>
+              </td>
+              <td>312</td>
+              <td>1.3ms</td>
+              <td><button class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;">Edit</button></td>
+            </tr>
+            <tr>
+              <td>Backend-4</td>
+              <td>192.168.1.103</td>
+              <td>8080</td>
+              <td><span class="badge badge-warning">Warning</span></td>
+              <td>
+                <div style="background-color: var(--surface-light); height: 20px; border-radius: 4px; overflow: hidden;">
+                  <div style="background-color: #f59e0b; height: 100%; width: 95%;"></div>
+                </div>
+                <div style="text-align: center; font-size: 0.8rem; color: var(--text-secondary);">95%</div>
+              </td>
+              <td>458</td>
+              <td>3.2ms</td>
+              <td><button class="btn btn-secondary" style="padding: 0.25rem 0.5rem; font-size: 0.8rem;">Scale</button></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- Performance Metrics -->
+    <div class="grid grid-2" style="margin-top: 1.5rem;">
+      <div class="card">
+        <h2 class="card-title">Traffic Distribution (Last Hour)</h2>
+        <div style="margin-top: 1rem;">
+          <div style="margin-bottom: 1rem;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+              <span>Backend-1</span>
+              <span>24%</span>
+            </div>
+            <div style="background-color: var(--surface-light); height: 8px; border-radius: 4px; overflow: hidden;">
+              <div style="background-color: #10b981; height: 100%; width: 24%;"></div>
+            </div>
+          </div>
+          <div style="margin-bottom: 1rem;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+              <span>Backend-2</span>
+              <span>26%</span>
+            </div>
+            <div style="background-color: var(--surface-light); height: 8px; border-radius: 4px; overflow: hidden;">
+              <div style="background-color: #3b82f6; height: 100%; width: 26%;"></div>
+            </div>
+          </div>
+          <div style="margin-bottom: 1rem;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+              <span>Backend-3</span>
+              <span>23%</span>
+            </div>
+            <div style="background-color: var(--surface-light); height: 8px; border-radius: 4px; overflow: hidden;">
+              <div style="background-color: #f59e0b; height: 100%; width: 23%;"></div>
+            </div>
+          </div>
+          <div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+              <span>Backend-4</span>
+              <span>27%</span>
+            </div>
+            <div style="background-color: var(--surface-light); height: 8px; border-radius: 4px; overflow: hidden;">
+              <div style="background-color: #8b5cf6; height: 100%; width: 27%;"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="card">
+        <h2 class="card-title">Performance Summary</h2>
+        <div style="margin-top: 1rem;">
+          <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; padding: 0.75rem; background-color: var(--surface-light); border-radius: 0.25rem;">
+            <span>Total Requests/sec</span>
+            <span id="total-requests-processed" style="color: #3b82f6; font-weight: bold;">12,456</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; padding: 0.75rem; background-color: var(--surface-light); border-radius: 0.25rem;">
+            <span>Successful Requests</span>
+            <span style="color: #10b981; font-weight: bold;">99.98%</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; padding: 0.75rem; background-color: var(--surface-light); border-radius: 0.25rem;">
+            <span>Failed Requests</span>
+            <span style="color: #ef4444; font-weight: bold;">0.02%</span>
+          </div>
+          <div style="display: flex; justify-content: space-between; padding: 0.75rem; background-color: var(--surface-light); border-radius: 0.25rem;">
+            <span>Avg Response Time</span>
+            <span style="color: #f59e0b; font-weight: bold;">2.05ms</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Connection Status -->
+  <div style="position: fixed; bottom: 20px; right: 20px; padding: 10px 15px; background-color: var(--surface); border-radius: 5px; border: 1px solid var(--border-color); font-size: 0.9rem;">
+    <span class="connection-dot disconnected" style="display: inline-block; width: 8px; height: 8px; border-radius: 50%; margin-right: 8px; vertical-align: middle;"></span>
+    <span class="connection-status">Connecting...</span>
+  </div>
+
+  <script src="js/api-client-simple.js"></script>
+  <script src="js/real-data-client.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

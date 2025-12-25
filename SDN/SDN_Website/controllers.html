@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Controllers - SDN Management Platform</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav>
+    <a href="index.html" class="nav-brand">SDN Management Platform</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Dashboard</a></li>
+      <li><a href="topology.html">Topology</a></li>
+      <li><a href="threat-detection.html">Threat Detection</a></li>
+      <li><a href="load-balancing.html">Load Balancing</a></li>
+      <li><a href="analytics.html">Analytics</a></li>
+      <li><a href="controllers.html">Controllers</a></li>
+      <li><a href="security-control.html">Security Control</a></li>
+      <li><a href="settings.html">Settings</a></li>
+    </ul>
+    <div class="user-section">
+      <div class="user-badge">👤 Admin</div>
+      <a href="#" class="btn btn-logout">Logout</a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container">
+    <!-- Header -->
+    <div class="dashboard-header">
+      <div>
+        <h1 class="dashboard-title">SDN Controllers</h1>
+        <p class="dashboard-subtitle">Manage control, data, and application planes</p>
+      </div>
+      <div class="dashboard-controls">
+        <button class="btn btn-primary">Add Controller</button>
+        <button class="btn btn-secondary">Configure</button>
+      </div>
+    </div>
+
+    <!-- Controller Tabs -->
+    <div class="tabs">
+      <button class="tab active" data-tab="application">Application Plane</button>
+      <button class="tab" data-tab="control">Control Plane</button>
+      <button class="tab" data-tab="data">Data Plane</button>
+      <button class="tab" data-tab="statistics">Statistics</button>
+    </div>
+
+    <!-- Application Plane Tab -->
+    <div id="application" class="tab-content active">
+      <div class="grid grid-2">
+        <div class="card">
+          <h2 class="card-title">Application Plane Overview</h2>
+          <p class="card-subtitle">User and service applications layer</p>
+          <div style="margin-top: 1.5rem;">
+            <div style="margin-bottom: 1.5rem; padding: 1rem; background-color: var(--surface-light); border-left: 3px solid var(--secondary-color); border-radius: 0.25rem;">
+              <div style="font-weight: 600; margin-bottom: 0.5rem;">🎯 Active Services: <span style="color: var(--secondary-color);">8</span></div>
+              <div style="color: var(--text-secondary); font-size: 0.9rem;">Network applications and services running</div>
+            </div>
+
+            <div style="margin-bottom: 1.5rem; padding: 1rem; background-color: var(--surface-light); border-left: 3px solid var(--accent-color); border-radius: 0.25rem;">
+              <div style="font-weight: 600; margin-bottom: 0.5rem;">📊 Total Requests: <span style="color: var(--accent-color);">2.5M</span></div>
+              <div style="color: var(--text-secondary); font-size: 0.9rem;">Application-level requests processed</div>
+            </div>
+
+            <div style="margin-bottom: 1.5rem; padding: 1rem; background-color: var(--surface-light); border-left: 3px solid var(--warning-color); border-radius: 0.25rem;">
+              <div style="font-weight: 600; margin-bottom: 0.5rem;">⏱️ Avg Response: <span style="color: var(--warning-color);">145ms</span></div>
+              <div style="color: var(--text-secondary); font-size: 0.9rem;">Average application response time</div>
+            </div>
+
+            <div style="padding: 1rem; background-color: var(--surface-light); border-left: 3px solid var(--accent-color); border-radius: 0.25rem;">
+              <div style="font-weight: 600; margin-bottom: 0.5rem;">✅ Success Rate: <span style="color: var(--accent-color);">99.2%</span></div>
+              <div style="color: var(--text-secondary); font-size: 0.9rem;">Successful request completion rate</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2 class="card-title">Registered Applications</h2>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Application</th>
+                  <th>Status</th>
+                  <th>Requests/s</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Web Server</td>
+                  <td><span class="badge badge-success">Running</span></td>
+                  <td>542</td>
+                </tr>
+                <tr>
+                  <td>API Gateway</td>
+                  <td><span class="badge badge-success">Running</span></td>
+                  <td>328</td>
+                </tr>
+                <tr>
+                  <td>Database Service</td>
+                  <td><span class="badge badge-success">Running</span></td>
+                  <td>156</td>
+                </tr>
+                <tr>
+                  <td>Cache Server</td>
+                  <td><span class="badge badge-success">Running</span></td>
+                  <td>892</td>
+                </tr>
+                <tr>
+                  <td>Message Queue</td>
+                  <td><span class="badge badge-success">Running</span></td>
+                  <td>234</td>
+                </tr>
+                <tr>
+                  <td>Analytics Engine</td>
+                  <td><span class="badge badge-success">Running</span></td>
+                  <td>89</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Control Plane Tab -->
+    <div id="control" class="tab-content">
+      <div class="grid grid-2">
+        <div class="card">
+          <h2 class="card-title">Control Plane Status</h2>
+          <p class="card-subtitle">Network control and intelligence layer</p>
+          <div style="margin-top: 1.5rem;">
+            <div style="margin-bottom: 1.5rem; padding: 1rem; background-color: var(--surface-light); border-left: 3px solid var(--secondary-color); border-radius: 0.25rem;">
+              <div style="font-weight: 600; margin-bottom: 0.5rem;">🎮 Controllers: <span style="color: var(--secondary-color);">3</span></div>
+              <div style="color: var(--text-secondary); font-size: 0.9rem;">Active control plane controllers</div>
+            </div>
+
+            <div style="margin-bottom: 1.5rem; padding: 1rem; background-color: var(--surface-light); border-left: 3px solid var(--accent-color); border-radius: 0.25rem;">
+              <div style="font-weight: 600; margin-bottom: 0.5rem;">🔗 Connected Switches: <span style="color: var(--accent-color);">12</span></div>
+              <div style="color: var(--text-secondary); font-size: 0.9rem;">OpenFlow switches under control</div>
+            </div>
+
+            <div style="margin-bottom: 1.5rem; padding: 1rem; background-color: var(--surface-light); border-left: 3px solid var(--warning-color); border-radius: 0.25rem;">
+              <div style="font-weight: 600; margin-bottom: 0.5rem;">📋 Flow Rules: <span style="color: var(--warning-color);">8,542</span></div>
+              <div style="color: var(--text-secondary); font-size: 0.9rem;">Active flow rules in network</div>
+            </div>
+
+            <div style="padding: 1rem; background-color: var(--surface-light); border-left: 3px solid var(--info-color); border-radius: 0.25rem;">
+              <div style="font-weight: 600; margin-bottom: 0.5rem;">⏱️ Rule Updates/s: <span style="color: #3b82f6;">23.4</span></div>
+              <div style="color: var(--text-secondary); font-size: 0.9rem;">Flow rule modifications per second</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2 class="card-title">Controller Instances</h2>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Controller</th>
+                  <th>Status</th>
+                  <th>CPU</th>
+                  <th>Memory</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Controller-1</td>
+                  <td><span class="badge badge-success">Primary</span></td>
+                  <td>42%</td>
+                  <td>67%</td>
+                </tr>
+                <tr>
+                  <td>Controller-2</td>
+                  <td><span class="badge badge-success">Secondary</span></td>
+                  <td>38%</td>
+                  <td>61%</td>
+                </tr>
+                <tr>
+                  <td>Controller-3</td>
+                  <td><span class="badge badge-success">Tertiary</span></td>
+                  <td>35%</td>
+                  <td>58%</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Data Plane Tab -->
+    <div id="data" class="tab-content">
+      <div class="grid grid-2">
+        <div class="card">
+          <h2 class="card-title">Data Plane Overview</h2>
+          <p class="card-subtitle">Packet forwarding layer</p>
+          <div style="margin-top: 1.5rem;">
+            <div style="margin-bottom: 1.5rem; padding: 1rem; background-color: var(--surface-light); border-left: 3px solid var(--secondary-color); border-radius: 0.25rem;">
+              <div style="font-weight: 600; margin-bottom: 0.5rem;">📦 Packets/sec: <span style="color: var(--secondary-color);">15.2M</span></div>
+              <div style="color: var(--text-secondary); font-size: 0.9rem;">Network packet throughput</div>
+            </div>
+
+            <div style="margin-bottom: 1.5rem; padding: 1rem; background-color: var(--surface-light); border-left: 3px solid var(--accent-color); border-radius: 0.25rem;">
+              <div style="font-weight: 600; margin-bottom: 0.5rem;">🔀 Packets Forwarded: <span style="color: var(--accent-color);">14.8M</span></div>
+              <div style="color: var(--text-secondary); font-size: 0.9rem;">Successfully forwarded packets</div>
+            </div>
+
+            <div style="margin-bottom: 1.5rem; padding: 1rem; background-color: var(--surface-light); border-left: 3px solid var(--warning-color); border-radius: 0.25rem;">
+              <div style="font-weight: 600; margin-bottom: 0.5rem;">❌ Dropped: <span style="color: var(--warning-color);">400K</span></div>
+              <div style="color: var(--text-secondary); font-size: 0.9rem;">Dropped/discarded packets</div>
+            </div>
+
+            <div style="padding: 1rem; background-color: var(--surface-light); border-left: 3px solid var(--accent-color); border-radius: 0.25rem;">
+              <div style="font-weight: 600; margin-bottom: 0.5rem;">💾 Throughput: <span style="color: var(--accent-color);">9.8 Gbps</span></div>
+              <div style="color: var(--text-secondary); font-size: 0.9rem;">Current network bandwidth usage</div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2 class="card-title">Switch Statistics</h2>
+          <div class="table-wrapper">
+            <table>
+              <thead>
+                <tr>
+                  <th>Switch</th>
+                  <th>Ports</th>
+                  <th>Packets/s</th>
+                  <th>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>Switch-1</td>
+                  <td>48</td>
+                  <td>4.2M</td>
+                  <td><span class="badge badge-success">Active</span></td>
+                </tr>
+                <tr>
+                  <td>Switch-2</td>
+                  <td>48</td>
+                  <td>5.1M</td>
+                  <td><span class="badge badge-success">Active</span></td>
+                </tr>
+                <tr>
+                  <td>Switch-3</td>
+                  <td>48</td>
+                  <td>5.9M</td>
+                  <td><span class="badge badge-success">Active</span></td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Statistics Tab -->
+    <div id="statistics" class="tab-content">
+      <div class="grid grid-2">
+        <div class="card">
+          <h2 class="card-title">Network Performance Metrics</h2>
+          <div style="margin-top: 1rem;">
+            <div style="margin-bottom: 1rem;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                <span>Availability</span>
+                <span>99.99%</span>
+              </div>
+              <div style="background-color: var(--surface-light); height: 8px; border-radius: 4px; overflow: hidden;">
+                <div style="background-color: #10b981; height: 100%; width: 99.99%;"></div>
+              </div>
+            </div>
+            <div style="margin-bottom: 1rem;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                <span>Controller Uptime</span>
+                <span>99.95%</span>
+              </div>
+              <div style="background-color: var(--surface-light); height: 8px; border-radius: 4px; overflow: hidden;">
+                <div style="background-color: #3b82f6; height: 100%; width: 99.95%;"></div>
+              </div>
+            </div>
+            <div style="margin-bottom: 1rem;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                <span>Network Efficiency</span>
+                <span>96.4%</span>
+              </div>
+              <div style="background-color: var(--surface-light); height: 8px; border-radius: 4px; overflow: hidden;">
+                <div style="background-color: #f59e0b; height: 100%; width: 96.4%;"></div>
+              </div>
+            </div>
+            <div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                <span>Rule Convergence Time</span>
+                <span>234ms</span>
+              </div>
+              <div style="background-color: var(--surface-light); height: 8px; border-radius: 4px; overflow: hidden;">
+                <div style="background-color: #8b5cf6; height: 100%; width: 75%;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2 class="card-title">Resource Utilization</h2>
+          <div style="margin-top: 1rem;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; padding: 0.75rem; background-color: var(--surface-light); border-radius: 0.25rem;">
+              <span>Total CPU Usage</span>
+              <span style="color: #3b82f6; font-weight: bold;">112.5%</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; padding: 0.75rem; background-color: var(--surface-light); border-radius: 0.25rem;">
+              <span>Total Memory</span>
+              <span style="color: #10b981; font-weight: bold;">186 GB / 256 GB</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; padding: 0.75rem; background-color: var(--surface-light); border-radius: 0.25rem;">
+              <span>Disk Space</span>
+              <span style="color: #f59e0b; font-weight: bold;">892 GB / 1 TB</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 0.75rem; background-color: var(--surface-light); border-radius: 0.25rem;">
+              <span>Network Bandwidth</span>
+              <span style="color: #8b5cf6; font-weight: bold;">9.8 Gbps / 10 Gbps</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/api-client.js"></script>
+  <script src="js/real-data-client.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

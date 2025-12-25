@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Network Topology - SDN Management Platform</title>
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+  <!-- Navigation -->
+  <nav>
+    <a href="index.html" class="nav-brand">SDN Management Platform</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Dashboard</a></li>
+      <li><a href="topology.html">Topology</a></li>
+      <li><a href="threat-detection.html">Threat Detection</a></li>
+      <li><a href="load-balancing.html">Load Balancing</a></li>
+      <li><a href="analytics.html">Analytics</a></li>
+      <li><a href="controllers.html">Controllers</a></li>
+      <li><a href="security-control.html">Security Control</a></li>
+      <li><a href="settings.html">Settings</a></li>
+    </ul>
+    <div class="user-section">
+      <div class="user-badge">👤 Admin</div>
+      <a href="#" class="btn btn-logout">Logout</a>
+    </div>
+  </nav>
+
+  <!-- Main Content -->
+  <div class="container">
+    <!-- Header -->
+    <div class="dashboard-header">
+      <div>
+        <h1 class="dashboard-title">Network Topology</h1>
+        <p class="dashboard-subtitle">Visualize and manage network structure</p>
+      </div>
+      <div class="dashboard-controls">
+        <button class="btn btn-primary">Refresh</button>
+        <button class="btn btn-secondary">Export</button>
+      </div>
+    </div>
+
+    <!-- Tabs -->
+    <div class="tabs">
+      <button class="tab active" data-tab="physical">Physical</button>
+      <button class="tab" data-tab="logical">Logical</button>
+      <button class="tab" data-tab="traffic">Traffic Flow</button>
+    </div>
+
+    <!-- Physical Topology Tab -->
+    <div id="physical" class="tab-content active">
+      <div class="card">
+        <h2 class="card-title">Physical Network Layout</h2>
+        <p class="card-subtitle">Hardware devices and their physical connections</p>
+        <canvas id="topology-canvas"></canvas>
+        <div class="topology-legend">
+          <div class="legend-item">
+            <div class="legend-symbol" style="background-color: #3b82f6;"></div>
+            <span>Controller</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-symbol" style="background-color: #10b981;"></div>
+            <span>Switch</span>
+          </div>
+          <div class="legend-item">
+            <div class="legend-symbol" style="background-color: #f59e0b;"></div>
+            <span>Host</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Logical Topology Tab -->
+    <div id="logical" class="tab-content">
+      <div class="card">
+        <h2 class="card-title">Logical Network Layout</h2>
+        <p class="card-subtitle">Virtual network connections and relationships</p>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>VLAN ID</th>
+                <th>Network Subnet</th>
+                <th>Connected Switches</th>
+                <th>Hosts</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>VLAN 100</td>
+                <td>192.168.1.0/24</td>
+                <td>Switch-1, Switch-2</td>
+                <td>15</td>
+                <td><span class="badge badge-success">Active</span></td>
+              </tr>
+              <tr>
+                <td>VLAN 200</td>
+                <td>192.168.2.0/24</td>
+                <td>Switch-2, Switch-3</td>
+                <td>22</td>
+                <td><span class="badge badge-success">Active</span></td>
+              </tr>
+              <tr>
+                <td>VLAN 300</td>
+                <td>192.168.3.0/24</td>
+                <td>Switch-1, Switch-3</td>
+                <td>17</td>
+                <td><span class="badge badge-success">Active</span></td>
+              </tr>
+              <tr>
+                <td>VLAN 400</td>
+                <td>10.0.0.0/24</td>
+                <td>Switch-1</td>
+                <td>8</td>
+                <td><span class="badge badge-warning">Monitoring</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+    </div>
+
+    <!-- Traffic Flow Tab -->
+    <div id="traffic" class="tab-content">
+      <div class="card">
+        <h2 class="card-title">Traffic Flow Analysis</h2>
+        <p class="card-subtitle">Current data flow between network nodes</p>
+        <div class="table-wrapper">
+          <table>
+            <thead>
+              <tr>
+                <th>Source</th>
+                <th>Destination</th>
+                <th>Protocol</th>
+                <th>Packets/sec</th>
+                <th>Bandwidth</th>
+                <th>Status</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td>Host-A (192.168.1.10)</td>
+                <td>Host-B (192.168.2.15)</td>
+                <td>TCP</td>
+                <td>1,245</td>
+                <td>2.3 Mbps</td>
+                <td><span class="badge badge-success">Normal</span></td>
+              </tr>
+              <tr>
+                <td>Host-B (192.168.2.15)</td>
+                <td>Host-C (192.168.3.20)</td>
+                <td>UDP</td>
+                <td>2,510</td>
+                <td>4.1 Mbps</td>
+                <td><span class="badge badge-success">Normal</span></td>
+              </tr>
+              <tr>
+                <td>Host-C (192.168.3.20)</td>
+                <td>External (10.0.0.1)</td>
+                <td>TCP</td>
+                <td>890</td>
+                <td>1.8 Mbps</td>
+                <td><span class="badge badge-success">Normal</span></td>
+              </tr>
+              <tr>
+                <td>Controller (10.0.0.5)</td>
+                <td>Switch-1 (10.0.0.101)</td>
+                <td>OpenFlow</td>
+                <td>456</td>
+                <td>0.5 Mbps</td>
+                <td><span class="badge badge-info">Control</span></td>
+              </tr>
+              <tr>
+                <td>Controller (10.0.0.5)</td>
+                <td>Switch-2 (10.0.0.102)</td>
+                <td>OpenFlow</td>
+                <td>512</td>
+                <td>0.6 Mbps</td>
+                <td><span class="badge badge-info">Control</span></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- Flow Statistics -->
+      <div class="grid grid-2" style="margin-top: 1.5rem;">
+        <div class="card">
+          <h2 class="card-title">Flow Statistics</h2>
+          <div style="margin-top: 1rem;">
+            <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; padding: 0.75rem; background-color: var(--surface-light); border-radius: 0.25rem;">
+              <span>Total Active Flows</span>
+              <span style="color: #3b82f6; font-weight: bold;">2,847</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; padding: 0.75rem; background-color: var(--surface-light); border-radius: 0.25rem;">
+              <span>Average Flow Duration</span>
+              <span style="color: #10b981; font-weight: bold;">45.3 sec</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; margin-bottom: 1rem; padding: 0.75rem; background-color: var(--surface-light); border-radius: 0.25rem;">
+              <span>New Flows/sec</span>
+              <span style="color: #f59e0b; font-weight: bold;">12.5</span>
+            </div>
+            <div style="display: flex; justify-content: space-between; padding: 0.75rem; background-color: var(--surface-light); border-radius: 0.25rem;">
+              <span>Dropped Flows</span>
+              <span style="color: #ef4444; font-weight: bold;">3</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="card">
+          <h2 class="card-title">Protocol Distribution</h2>
+          <div style="margin-top: 1rem;">
+            <div style="margin-bottom: 1rem;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                <span>TCP</span>
+                <span>62%</span>
+              </div>
+              <div style="background-color: var(--surface-light); height: 8px; border-radius: 4px; overflow: hidden;">
+                <div style="background-color: #3b82f6; height: 100%; width: 62%; border-radius: 4px;"></div>
+              </div>
+            </div>
+            <div style="margin-bottom: 1rem;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                <span>UDP</span>
+                <span>25%</span>
+              </div>
+              <div style="background-color: var(--surface-light); height: 8px; border-radius: 4px; overflow: hidden;">
+                <div style="background-color: #10b981; height: 100%; width: 25%; border-radius: 4px;"></div>
+              </div>
+            </div>
+            <div style="margin-bottom: 1rem;">
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                <span>ICMP</span>
+                <span>8%</span>
+              </div>
+              <div style="background-color: var(--surface-light); height: 8px; border-radius: 4px; overflow: hidden;">
+                <div style="background-color: #f59e0b; height: 100%; width: 8%; border-radius: 4px;"></div>
+              </div>
+            </div>
+            <div>
+              <div style="display: flex; justify-content: space-between; margin-bottom: 0.5rem;">
+                <span>Other</span>
+                <span>5%</span>
+              </div>
+              <div style="background-color: var(--surface-light); height: 8px; border-radius: 4px; overflow: hidden;">
+                <div style="background-color: #8b5cf6; height: 100%; width: 5%; border-radius: 4px;"></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script src="js/api-client.js"></script>
+  <script src="js/real-data-client.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>
